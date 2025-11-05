@@ -1,0 +1,7 @@
+# Ignore postman file
+/API/Api-test.http/
+/API/Api-test.postman_collection.json/
+# Ignore Testing-Api folder
+Testing-Api/
+# Ignore go DB
+api.db

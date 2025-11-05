@@ -1,0 +1,29 @@
+# Api-test
+
+###
+# @name create-e
+POST
+
+###
+# @name get-events
+GET
+
+###
+# @name get-single-e
+GET
+
+###
+# @name update-e
+GET
+
+###
+# @name Delete-e
+GET
+
+###
+# @name create-u
+GET
+
+###
+# @name login-u
+GET

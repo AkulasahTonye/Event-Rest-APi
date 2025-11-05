@@ -1,0 +1,22 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="GoErrorStringFormat" enabled="false" level="INFORMATION" enabled_by_default="false" />
+    <inspection_tool class="IncorrectHttpHeaderInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="customHeaders">
+        <set>
+          <option value="POST http" />
+          <option value="    &quot;Description&quot;" />
+          <option value="&quot;ID&quot;" />
+          <option value="    &quot;Name&quot;" />
+          <option value="    &quot;Location&quot;" />
+          <option value="{" />
+          <option value="  &quot;name&quot;" />
+          <option value="  &quot;description&quot;" />
+          <option value="  &quot;location&quot;" />
+          <option value="  &quot;dateTime&quot;" />
+        </set>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
