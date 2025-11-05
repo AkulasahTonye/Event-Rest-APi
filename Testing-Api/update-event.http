@@ -1,0 +1,13 @@
+### GET request to example server
+
+PUT localhost:8080//events/5
+content-type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFeHAiOjE3NjE4NjEyNTgsImVtYWlsIjoidGVzdDVAZXhhbXBsZS5jb20iLCJ1c2VySUQiOjR9.yC1uEWsNvTFDog-Qyc51i3ps_ccYep4Dt0QOWgkHDTY
+
+{
+  "name": "Updated event 5",
+  "description": "Good boy",
+  "location": "good Location (Updated)",
+  "dateTime": "2025-01-01T15:30:00Z"
+}
+###

@@ -1,0 +1,10 @@
+### GET request to example server
+    POST localhost:8080/signup
+content-type: application/json
+
+{
+  "email": "test1@example.com",
+  "password": "Original1"
+}
+
+###

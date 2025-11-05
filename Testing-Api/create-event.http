@@ -1,0 +1,17 @@
+### GET request to example server
+POST http://localhost:8080/events
+content-type: application/json
+Authorization: yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFeHAiOjE3NjIwMTQ3MTcsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInVzZXJJRCI6MX0.kT3S8UQXAugsuWVFMnXN4HYEORJTuuthEsnFd8aEaEs
+
+
+{
+  "name": "Wonderful event",
+  "description": "My  Event",
+  "location": "Loading Location",
+  "dateTime": "2025-01-01T15:30:00.000Z"
+}
+
+
+
+
+###
