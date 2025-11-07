@@ -9,6 +9,8 @@ import (
 
 const UserIDKey = "userId"
 
+var verifyTokenFunc = utils.VerifyToken
+
 func Authenticate(ctx *gin.Context) {
 	token := ctx.Request.Header.Get("Authorization")
 
@@ -17,7 +19,7 @@ func Authenticate(ctx *gin.Context) {
 		return
 	}
 
-	userId, err := utils.VerifyToken(token)
+	userId, err := verifyTokenFunc(token)
 
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "Not Authorized."})

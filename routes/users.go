@@ -19,7 +19,7 @@ func signup(ctx *gin.Context) {
 		})
 		return
 	}
-	err = user.Save()
+	err = user.Save(utils.HashPassword)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"Message": "Could not save user",
@@ -40,7 +40,7 @@ func login(ctx *gin.Context) {
 		})
 		return
 	}
-	err = user.ValidateCredentials()
+	err = user.ValidateCredentials(utils.CheckHashPassword)
 
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"Message": "Could not authenticate user"})
