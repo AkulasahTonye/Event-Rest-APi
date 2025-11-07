@@ -51,3 +51,8 @@ data/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Postman collection
+*.postman_collection.json
+
+Testing-Api/

@@ -1,12 +1,12 @@
 ### GET request to example server
 POST http://localhost:8080/events
 content-type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFeHAiOjE3NjI1MzE3MjYsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInVzZXJJRCI6MX0.Cy8KCHnxZWolJ1a6WazeKg8_I3Ada8Q1GaZ1dkmUSsk
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFeHAiOjE3NjI1NjIxNzEsImVtYWlsIjoidGVzdDNAZXhhbXBsZS5jb20iLCJ1c2VySUQiOjJ9.9Uylg4kD_SuyBZ8HiRr6ebkiueGvt-P3a3cKBnVnPNo
 
 {
-  "name": "Sam",
-  "description": "Event Center",
-  "location": "Phase 2",
+  "name": "Larry",
+  "description": "Lake view",
+  "location": "Phase 3",
   "dateTime": "2025-01-01T15:30:00Z"
 }
 

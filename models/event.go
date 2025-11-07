@@ -15,7 +15,10 @@ type Event struct {
 	UserID      int64     `json:"userId"`
 }
 
-var events = []Event{}
+var (
+	GetAllEvents = getAllEvents
+	GetEventByID = getEventByID
+)
 
 func (e *Event) Save() error {
 	query := `
@@ -39,7 +42,7 @@ func (e *Event) Save() error {
 
 }
 
-func GetAllEvents() ([]Event, error) {
+func getAllEvents() ([]Event, error) {
 	query := "SELECT * FROM events"
 	rows, err := db.DB.Query(query)
 	if err != nil {
@@ -63,7 +66,7 @@ func GetAllEvents() ([]Event, error) {
 	return events, nil
 }
 
-func GetEventByID(id int64) (*Event, error) {
+func getEventByID(id int64) (*Event, error) {
 	query := "SELECT * FROM events WHERE id =?"
 	row := db.DB.QueryRow(query, id)
 
@@ -92,6 +95,7 @@ WHERE id = ?
 }
 
 func (e Event) Delete() error {
+
 	query := "DELETE FROM main.events WHERE events.id = ?"
 	Stmt, err := db.DB.Prepare(query)
 
