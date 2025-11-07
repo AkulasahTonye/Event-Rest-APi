@@ -38,3 +38,11 @@ func TestSaveEvent(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, int64(1), events.ID)
 }
+
+func TestGetAllEvents(t *testing.T) {
+	mock, closeFn := setUpMockDB(t)
+	defer closeFn()
+
+	mock.ExpectQuery("SELECT * FROM events").WillReturnRows(sqlmock.NewRows([]string{"id", "name", "description", "location", "dateTime", "userId"}).AddRow(1, "Test Event", "Test Save Function", "Online", time.Now(), 1))
+
+}
