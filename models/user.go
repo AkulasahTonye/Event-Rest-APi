@@ -2,7 +2,6 @@ package models
 
 import (
 	"example.com/api-testing/db"
-	"example.com/api-testing/utils"
 	"github.com/pkg/errors"
 )
 
@@ -12,7 +11,7 @@ type User struct {
 	Password string `binding:"required"`
 }
 
-func (u User) Save() error {
+func (u *User) Save(hashFunc func(string) (string, error)) error {
 	query := "INSERT INTO users(email, password) VALUES (?,?)"
 	stmt, err := db.DB.Prepare(query)
 
@@ -21,7 +20,7 @@ func (u User) Save() error {
 	}
 	defer stmt.Close()
 
-	hashsPassword, err := utils.HashPassword(u.Password)
+	hashsPassword, err := hashFunc(u.Password)
 	result, err := stmt.Exec(u.Email, hashsPassword)
 
 	if err != nil {
@@ -32,7 +31,7 @@ func (u User) Save() error {
 	return err
 }
 
-func (u *User) ValidateCredentials() error {
+func (u *User) ValidateCredentials(checkFunc func(string, string) bool) error {
 	query := "SELECT id, password FROM users WHERE email = ?"
 	row := db.DB.QueryRow(query, u.Email)
 
@@ -43,7 +42,7 @@ func (u *User) ValidateCredentials() error {
 		return errors.New("Credentials invalid")
 	}
 
-	passwordIsValid := utils.CheckHashPassword(u.Password, retrievedpassword)
+	passwordIsValid := checkFunc(u.Password, retrievedpassword)
 
 	if !passwordIsValid {
 		return errors.New("Credentials invalid")
