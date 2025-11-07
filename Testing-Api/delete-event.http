@@ -1,4 +1,4 @@
 ### GET request to example server
-DELETE localhost:8080/events/2
+DELETE localhost:8080/events
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFeHAiOjE3NjIwMTI5NjIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInVzZXJJRCI6MX0.e7S6PY9MWgZ5SBM1Xb-JgIovMj-veZGBYceMyOydF54
 

@@ -3,8 +3,8 @@
 content-type: application/json
 
 {
-  "email": "test1@example.com",
-  "password": "Original1"
+  "email": "test@example.com",
+  "password": "Original"
 }
 
 ###

@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -34,25 +35,24 @@ func getEvent(ctx *gin.Context) {
 }
 
 func createEvent(ctx *gin.Context) {
-
 	var event models.Event
-	err := ctx.ShouldBindJSON(&event)
 
-	if err != nil {
+	if err := ctx.ShouldBindJSON(&event); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Message": "Could not parse request data",
 			"Error":   err.Error(),
 		})
 		return
 	}
-
 	userId := ctx.GetInt64("userId")
 	event.UserID = userId
 
-	err = event.Save()
-
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"Message": "Could not create event. Try again later."})
+	if err := event.Save(); err != nil {
+		fmt.Printf("Error saving event: %v\n", err) // This will log the actual error to your console
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"Message": "Could not create event",
+			"Error":   err.Error(),
+		})
 		return
 	}
 

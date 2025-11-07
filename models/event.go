@@ -7,12 +7,12 @@ import (
 )
 
 type Event struct {
-	ID          int64
-	Name        string    `binding:"required"`
-	Description string    `binding:"required"`
-	Location    string    `binding:"required"`
-	DateTime    time.Time `binding:"required"`
-	UserID      int64
+	ID          int64     `json:"id"`
+	Name        string    `json:"name"  binding:"required"`
+	Description string    `json:"description" binding:"required"`
+	Location    string    `json:"location" binding:"required"`
+	DateTime    time.Time `json:"dateTime" binding:"required"`
+	UserID      int64     `json:"userId"`
 }
 
 var events = []Event{}
