@@ -8,10 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Function variables for mocking in tests
+var (
+	HashPasswordFunc      = utils.HashPassword
+	CheckHashPasswordFunc = utils.CheckHashPassword
+	GenerateTokensFunc    = utils.GenerateTokens
+	UserSaveFunc          = func(u *models.User) error { return u.Save(HashPasswordFunc) }
+	ValidateUserFunc      = func(u *models.User) error { return u.ValidateCredentials(CheckHashPasswordFunc) }
+)
+
 func signup(ctx *gin.Context) {
 	var user models.User
 	err := ctx.ShouldBindJSON(&user)
-
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Message": "Could not parse request data",
@@ -19,20 +27,22 @@ func signup(ctx *gin.Context) {
 		})
 		return
 	}
-	err = user.Save(utils.HashPassword)
+
+	err = UserSaveFunc(&user)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"Message": "Could not save user",
 			"Error":   err.Error(),
 		})
-		ctx.JSON(http.StatusCreated, gin.H{"Message": "User created successfully!"})
+		return
 	}
+
+	ctx.JSON(http.StatusCreated, gin.H{"Message": "User created successfully!"})
 }
 
 func login(ctx *gin.Context) {
 	var user models.User
 	err := ctx.ShouldBindJSON(&user)
-
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Message": "Could not parse request data",
@@ -40,16 +50,16 @@ func login(ctx *gin.Context) {
 		})
 		return
 	}
-	err = user.ValidateCredentials(utils.CheckHashPassword)
 
+	err = ValidateUserFunc(&user)
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"Message": "Could not authenticate user"})
 		return
 	}
 
-	token, err := utils.GenerateTokens(user.Email, user.ID)
+	token, err := GenerateTokensFunc(user.Email, user.ID)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "could not authenticate user."})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Could not generate token"})
 		return
 	}
 

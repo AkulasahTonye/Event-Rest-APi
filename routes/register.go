@@ -8,43 +8,64 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// -------------------------------
+// 🔹 Mockable Function Hooks
+// -------------------------------
+
+// These can be overridden in tests to prevent touching the real DB
+var (
+	GetEventByIDForRegisterFunc = models.GetEventByIDFunc
+	RegisterEventFunc           = func(e *models.Event, userID int64) error { return e.Register(userID) }
+	CancelRegistrationFunc      = func(e *models.Event, userID int64) error { return e.CancelRegistration(userID) }
+)
+
+// -------------------------------
+// 🔹 Route Handlers
+// -------------------------------
+
+// registerForEvent handles POST /events/:id/register
 func registerForEvent(ctx *gin.Context) {
-	userId := ctx.GetInt64("userId")
-	eventId, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	eventID, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse event id."})
-		return
-	}
-	event, err := models.GetEventByID(eventId)
-
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch event."})
+		ctx.JSON(http.StatusBadRequest, gin.H{"Message": "Invalid event ID"})
 		return
 	}
 
-	err = event.Register(userId)
-
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Could not register user for event."})
+	userID := ctx.GetInt64("userId")
+	event, err := GetEventByIDForRegisterFunc(eventID)
+	if err != nil || event == nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"Message": "Event not found"})
 		return
 	}
-	ctx.JSON(http.StatusCreated, gin.H{"message": "Registered!"})
 
+	if err := RegisterEventFunc(event, userID); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"Message": "Could not register for event", "Error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, gin.H{"Message": "Registration successful"})
 }
 
+// cancelRegistration handles DELETE /events/:id/register
+
 func cancelRegistration(ctx *gin.Context) {
-	userId := ctx.GetInt64("userId")
-	eventId, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
-
-	var event models.Event
-	event.ID = eventId
-
-	err = event.CancelRegistration(userId)
-
+	eventID, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Could not cancel registration."})
+		ctx.JSON(http.StatusBadRequest, gin.H{"Message": "Invalid event ID"})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"message": "Cancelled!"})
+	userID := ctx.GetInt64("userId")
+	event, err := GetEventByIDForRegisterFunc(eventID)
+	if err != nil || event == nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"Message": "Event not found"})
+		return
+	}
+
+	if err := CancelRegistrationFunc(event, userID); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"Message": "Could not cancel registration", "Error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"Message": "Registration canceled successfully"})
 }

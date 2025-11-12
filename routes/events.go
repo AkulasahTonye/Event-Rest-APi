@@ -11,7 +11,7 @@ import (
 
 func getEvents(ctx *gin.Context) {
 
-	events, err := models.GetAllEvents()
+	events, err := models.GetAllEventsFunc()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"Message": "Could not fetch events. Try again later. "})
 		return
@@ -26,7 +26,7 @@ func getEvent(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"Message": "Could not parse event id. "})
 		return
 	}
-	event, err := models.GetEventByID(eventId)
+	event, err := models.GetEventByIDFunc(eventId)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"Message": "Could not fetch event. "})
 		return
@@ -66,7 +66,7 @@ func updateEvent(ctx *gin.Context) {
 		return
 	}
 	userId := ctx.GetInt64("userId")
-	event, err := models.GetEventByID(eventId)
+	event, err := models.GetEventByIDFunc(eventId)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"Message": "Could not fetch the event."})
@@ -103,7 +103,7 @@ func deleteEvent(ctx *gin.Context) {
 		return
 	}
 	userId := ctx.GetInt64("userId")
-	event, err := models.GetEventByID(eventId)
+	event, err := models.GetEventByIDFunc(eventId)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"Message": "Could not fetch the event."})

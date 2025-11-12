@@ -49,7 +49,7 @@ func TestGetAllEvents(t *testing.T) {
 
 	mock.ExpectQuery("SELECT \\* FROM events").WillReturnRows(rows)
 
-	events, err := GetAllEvents()
+	events, err := getAllEvents()
 	assert.NoError(t, err)
 	assert.Len(t, events, 2)
 	assert.Equal(t, "Event A", events[0].Name)
@@ -66,7 +66,7 @@ func TestGetEventByID(t *testing.T) {
 		WithArgs(int64(1)).
 		WillReturnRows(row)
 
-	event, err := GetEventByID(1)
+	event, err := getEventByID(1)
 	assert.NoError(t, err)
 	assert.Equal(t, "Event X", event.Name)
 }
